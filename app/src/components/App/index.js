@@ -110,6 +110,11 @@ class App extends React.Component {
 
     this.setState({ tasks });
   }
+
+  removeTask = id => () => {
+    const tasks = this.state.tasks.filter(task => task.id !== id);
+    this.setState({ tasks });
+  }
   /*
    * Rendu
    */
@@ -123,7 +128,12 @@ class App extends React.Component {
       <div id="todo">
         <Form onAddTask={this.addTask} />
         <Counter count={count} />
-        <Tasks tasks={tasks} onCheckTask={this.checkTask} onAddFavorite={this.addFavorite} />
+        <Tasks
+          tasks={tasks}
+          onCheckTask={this.checkTask}
+          onAddFavorite={this.addFavorite}
+          onRemoveTask={this.removeTask}
+        />
       </div>
     );
   }

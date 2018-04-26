@@ -12,7 +12,9 @@ import Task from 'src/components/Task';
 /**
  * Code
  */
-const Tasks = ({ tasks, onCheckTask, onAddFavorite }) => (
+const Tasks = ({
+  tasks, onCheckTask, onAddFavorite, onRemoveTask,
+}) => (
   <ul id="todo-list">
     {tasks.map(task => (
       <Task
@@ -20,6 +22,7 @@ const Tasks = ({ tasks, onCheckTask, onAddFavorite }) => (
         {...task}
         onCheckTask={onCheckTask}
         onAddFavorite={onAddFavorite}
+        onRemoveTask={onRemoveTask}
       />
     ))}
   </ul>
@@ -31,6 +34,7 @@ Tasks.propTypes = {
   }).isRequired).isRequired,
   onCheckTask: PropTypes.func.isRequired,
   onAddFavorite: PropTypes.func.isRequired,
+  onRemoveTask: PropTypes.func.isRequired,
 };
 /**
  * Export

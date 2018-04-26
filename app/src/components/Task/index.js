@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import TiStarFullOutline from 'react-icons/lib/ti/star-full-outline';
 import TiStarOutline from 'react-icons/lib/ti/star-outline';
+import TiTimes from 'react-icons/lib/ti/times';
 
 
 /**
@@ -17,7 +18,7 @@ import TiStarOutline from 'react-icons/lib/ti/star-outline';
  * Code
  */
 const Task = ({
-  id, label, done, favorite, onCheckTask, onAddFavorite,
+  id, label, done, favorite, onCheckTask, onAddFavorite, onRemoveTask,
 }) => {
   // Calcul des classes courantes
   const currentClassNames = classNames(
@@ -26,13 +27,15 @@ const Task = ({
   );
   return (
     <li className={currentClassNames}>
+      <span className="task-star" onClick={onAddFavorite(id)}>{favorite ? <TiStarFullOutline /> : <TiStarOutline />}</span>
       <input
+        className="checkboxes"
         type="checkbox"
         checked={done}
         onChange={onCheckTask(id)}
       />
       <span className="task-label">{label}</span>
-      <span className="task-star" onClick={onAddFavorite(id)}>{favorite ? <TiStarFullOutline /> : <TiStarOutline />}</span>
+      <span onClick={onRemoveTask(id)} className="task-trash"><TiTimes /></span>
     </li>
   );
 };
@@ -44,6 +47,7 @@ Task.propTypes = {
   favorite: PropTypes.bool.isRequired,
   onCheckTask: PropTypes.func.isRequired,
   onAddFavorite: PropTypes.func.isRequired,
+  onRemoveTask: PropTypes.func.isRequired,
 };
 /**
  * Export
