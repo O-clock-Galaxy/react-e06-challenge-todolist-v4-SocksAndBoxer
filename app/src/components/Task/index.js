@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import TiStarFullOutline from 'react-icons/lib/ti/star-full-outline';
 import TiStarOutline from 'react-icons/lib/ti/star-outline';
-import TiTimes from 'react-icons/lib/ti/times';
+import TiTimes from 'react-icons/lib/fa/trash';
 
 
 /**
@@ -24,6 +24,7 @@ const Task = ({
   const currentClassNames = classNames(
     'task',
     { 'task--done': done },
+    { 'task--favorite': favorite },
   );
   return (
     <li className={currentClassNames}>

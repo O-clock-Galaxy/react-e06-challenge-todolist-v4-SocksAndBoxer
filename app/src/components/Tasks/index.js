@@ -13,16 +13,16 @@ import Task from 'src/components/Task';
  * Code
  */
 const Tasks = ({
-  tasks, onCheckTask, onAddFavorite, onRemoveTask,
+  tasks, actions,
 }) => (
   <ul id="todo-list">
     {tasks.map(task => (
       <Task
         key={task.id}
         {...task}
-        onCheckTask={onCheckTask}
-        onAddFavorite={onAddFavorite}
-        onRemoveTask={onRemoveTask}
+        onCheckTask={actions.onCheckTask}
+        onAddFavorite={actions.onAddFavorite}
+        onRemoveTask={actions.onRemoveTask}
       />
     ))}
   </ul>
@@ -32,9 +32,7 @@ Tasks.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
   }).isRequired).isRequired,
-  onCheckTask: PropTypes.func.isRequired,
-  onAddFavorite: PropTypes.func.isRequired,
-  onRemoveTask: PropTypes.func.isRequired,
+  actions: PropTypes.objectOf(PropTypes.func.isRequired).isRequired,
 };
 /**
  * Export

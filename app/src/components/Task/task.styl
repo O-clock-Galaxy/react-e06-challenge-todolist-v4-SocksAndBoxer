@@ -1,4 +1,5 @@
   .task
+    box-sizing: border-box
     background-color: #fff
     border-radius: 0.3em
     border: 1px solid #ccc
@@ -6,15 +7,25 @@
     padding: 1em
     font-size: 1.2em
 
-    &--done
-      opacity: 0.5
-      text-decoration: line-through
-
     &-label
       margin-left: 0.5em
 
     &-trash
       float: right
+      cursor: pointer
+      &:hover
+        color: red
 
     &-star
       padding-right: 15px
+      cursor: pointer
+      &:hover
+        color: yellow
+
+    &--favorite
+      border: 3px solid gold
+
+    &--done
+      opacity: 0.5
+      text-decoration: line-through
+      border: none

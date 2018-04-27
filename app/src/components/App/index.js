@@ -17,7 +17,9 @@ class App extends React.Component {
   /*
    * State
    */
+
   state = {
+    input: '',
     tasks: [
       {
         id: 5,
@@ -38,10 +40,19 @@ class App extends React.Component {
         favorite: false,
       },
     ],
+  };
+
+  componentWillMount = () => {
+    const tasks = this.orderTask(this.state.tasks);
+    this.setState({ tasks });
   }
   /*
    * Actions
    */
+  changeInput = (value) => {
+    this.setState({ input: value });
+  }
+
   addTask = () => {
     // Je créé un tableau avec toutes les ids
     const allIds = this.state.tasks.map(task => task.id);
@@ -50,8 +61,8 @@ class App extends React.Component {
     const newId = Math.max(...allIds) + 1;
 
     // je prends l'element du DOM, temporaire
-    const input = document.getElementById('todo-input');
-    const label = input.value;
+    // const input = document.getElementById('todo-input');
+    const label = this.state.input;
 
     // Creer une tache et la remplir, pour le test
     const task = {
@@ -62,10 +73,12 @@ class App extends React.Component {
     };
 
     const tasks = [...this.state.tasks, task];
-    input.value = '';
 
     // Modifier le state
-    this.setState({ tasks });
+    this.setState({
+      tasks,
+      input: '',
+    });
   }
 
   checkTask = id => () => {
@@ -86,8 +99,8 @@ class App extends React.Component {
       }
       return task;
     });
-    const favFirst = newTasks.sort((a, b) => b.favorite - a.favorite);
-    const tasks = favFirst.sort((a, b) => a.done - b.done);
+
+    const tasks = this.orderTask(newTasks);
     // Modifier le state avec la Copie
     this.setState({ tasks });
   }
@@ -105,8 +118,7 @@ class App extends React.Component {
       return task;
     });
 
-    const favFirst = newTasks.sort((a, b) => b.favorite - a.favorite);
-    const tasks = favFirst.sort((a, b) => a.done - b.done);
+    const tasks = this.orderTask(newTasks);
 
     this.setState({ tasks });
   }
@@ -115,24 +127,36 @@ class App extends React.Component {
     const tasks = this.state.tasks.filter(task => task.id !== id);
     this.setState({ tasks });
   }
+
+  orderTask = (newTasks) => {
+    const favFirst = newTasks.sort((a, b) => b.favorite - a.favorite);
+    const tasks = favFirst.sort((a, b) => a.done - b.done);
+    return tasks;
+  }
   /*
    * Rendu
    */
   render() {
-    const { tasks } = this.state;
+    const { tasks, input } = this.state;
 
     // Taches en cours / non-effectuées
     const count = tasks.filter(task => !task.done).length;
 
     return (
       <div id="todo">
-        <Form onAddTask={this.addTask} />
+        <Form
+          onAddTask={this.addTask}
+          inputValue={input}
+          onChangeInput={this.changeInput}
+        />
         <Counter count={count} />
         <Tasks
           tasks={tasks}
-          onCheckTask={this.checkTask}
-          onAddFavorite={this.addFavorite}
-          onRemoveTask={this.removeTask}
+          actions={{
+            onCheckTask: this.checkTask,
+            onAddFavorite: this.addFavorite,
+            onRemoveTask: this.removeTask,
+          }}
         />
       </div>
     );
